@@ -1,0 +1,26 @@
+Stores:
+Tilføj store_id ikke afhængig af andre tabeller
+
+Brands:
+Gør intet, ikke afhængig af andre tabeller
+
+Categories:
+Gør intet, ikke afhængig af andre tabeller
+
+Staffs:
+Tilføj staff_id og indsæt store_id istedet for store_name og street
+
+Products:
+Ikke gør noget, afhængig af brand og Categories
+
+stock:
+Ændre til store_id, afhængig af stores og Products
+
+Order_items:
+Fjern list_price, afhængig af order & Products
+
+orders:
+Ændre staff og store til id numre, afhængig af staff, store og customer
+
+customers:
+Ikke gøre noget, ikke afhængig af andre

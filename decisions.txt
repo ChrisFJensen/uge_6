@@ -1,0 +1,26 @@
+Tilføje en staff id til staffs tabellen
+
+Ændrer staff i orders til den nyoprettede staff_id variabel
+
+Fjerne list price fra order måske??
+
+Gør noget med navnene måske
+
+Fjerne list price fra order items måske
+
+Vurder om der er relevante kolonner at tilføje til orders, såsom genstande solgt og samlet salg.
+
+
+Så skal have alle kolloner når jeg uploader, også selvom SQL selv håndterer id'en
+
+
+SQL AUTO increment er rar feature Lave en change condition på staff når det er vi uploader
+
+
+
+Vil lave en staff id eller store id men det gøres i MySQL så har ikke adgang til det lokalt i Pandas...
+
+Måske tilføj en sales tabel.
+
+Arbejde med at bruge join til når man skal reade dataen.
+    Lave en read table raw, måske

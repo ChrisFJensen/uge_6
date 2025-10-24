@@ -1,0 +1,31 @@
+customer_id: Customers & orders
+order_id: order_items & orders
+item_id: order_items
+product_id: order_items & products & stocks
+brand_id: products & brands
+category_id: products & categories
+store_name: stocks & stores(name) & staff
+staff_name: orders & staff
+
+Fra orders:
+
+Order_id -> order_items (one to one)
+    order_items:
+    product_id -> products (many to one)
+        products:
+        category_id -> Categories (end) (many to one)
+        brand_id -> brands (end) (many to one)
+    product_id -> stocks (many to many)
+
+staff_name -> Staffs
+    staffs:
+        Staffs -> store_name (many to one)
+
+store_name -> stores (many to one)
+    stores -> stocks (one to many)
+
+store_name -> stocks (many to many)
+
+
+
+
