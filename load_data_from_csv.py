@@ -13,5 +13,12 @@ def load_data_csv(filename: str):
     df = pd.read_csv(file)
     return df
 
+def load_data_csv_path(filepath: str):
+    try:
+        df = pd.read_csv(filepath)
+        return df
+    except FileNotFoundError as e:
+        print(e)
+        return None
 
 

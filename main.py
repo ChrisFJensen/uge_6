@@ -5,37 +5,13 @@ import load_data_from_csv
 import etl_crud
 import prep_data
 import pandas as pd
+import classes
 
-class load_to_database():
-    def __init__(self, connector: connector):
-        self.connector = connector
-        self.crud = etl_crud.CRUD(self.connector)
-        self.data = None
-    
-    def read_data_from_source(self,table_name: str):
-        if table_name in ["orders","order_items","customers"]:
-            self.data = load_api_data.api_data(table_name)
-            return self.data
-        else:
-            self.data = load_data_from_csv.load_data_csv(table_name)
-            return self.data
-    
-    def load(self, table_name: str):
-        self.read_data_from_source(table_name)
-        self.crud.write_to_table(self.data, table_name)
-    
-    def read(self, table_name: str):
-        self.crud.read_table(table_name)
-        print(self.crud.data)
 
 # Order of load order of tables
 table_order = ["brands","categories","products","customers","stores","staffs","stocks","orders","order_items"]
 
-def load_data_to_db(tables: list, connector:connector):
-    loader = load_to_database(connector)
-    for table in tables:
-        loader.load(table)
-    return None
+
 
 if __name__ == "__main__":
 
@@ -48,9 +24,9 @@ if __name__ == "__main__":
     database.show_tables()
 
 
-    load_data_to_db(table_order, database)
+    classes.load_data_to_db(table_order, database)
     # Create our loader object
-    loader = load_to_database(database)
+    loader = classes.load_to_database(database)
     database.close()
 
 for table in SQL_tables.table_list:
