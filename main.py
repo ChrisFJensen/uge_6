@@ -1,47 +1,42 @@
-import load_api_data
 from etl_connector import connector
-import SQL_tables
-import load_data_from_csv
-import etl_crud
-import prep_data
-import pandas as pd
-import classes
+from read_sources import extractor
+from transform_data import transformer
+from loader import loader
+import os
 
 
 # Order of load order of tables
 table_order = ["brands","categories","products","customers","stores","staffs","stocks","orders","order_items"]
 
 
+# Create connection
+database = connector()
+database.connect()
+database.is_open()
+# Create/Choose desired DB
+database.create_db("uge6_database")
+#Initialise tables based on a scheme
+database.initialise_tables("SQL_tables.sql")
 
-if __name__ == "__main__":
+#Start our classes
+extract = extractor()
+transform = transformer(database)
+load = loader(database)
 
-    # Create connection and database
-    database = connector()
-    database.connect()
-    database.is_open()
-    database.create_db("uge6_database")
-    database.drop_db_current()
-    database.show_tables()
+#ETL Process
 
+def etl_process(table_name: str):
+    if table_name in ["orders","order_items","customers"]:
+        data = extract.extract_api(table_name)
+    else:
+        file_path = os.path.join("Data opsætning","Data CSV",f"{table_name}.csv")
+        data = extract.extract_csv(file_path)
+    data_t = transform.transform(data,table_name)
+    load.load_data(data_t, table_name)
+    return None
 
-    classes.load_data_to_db(table_order, database)
-    # Create our loader object
-    loader = classes.load_to_database(database)
-    database.close()
+test_data = extract.extract_api("orders")
+load.load_data(test_data,"orders")
 
-for table in SQL_tables.table_list:
-    database.create_table(table)
-
-for table in reversed(table_order):
-    database.del_table_data(table)
-
-for table in table_order:
-    loader.load(table)
-
-for table in table_order:
-    print(loader.read(table))
-
-loader.read_data_from_source("stocks")
-
-stock_test = loader.data
-print(prep_data.prep_data(stock_test,"stocks", database))
+for table_name in table_order:
+    etl_process(table_name)

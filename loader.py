@@ -2,7 +2,7 @@ import pandas as pd
 import mysql.connector
 from etl_connector import connector
 import numpy as np
-import transform_data
+from transform_data import transformer
 
 def get_column_names(table_name: str, connect: connector):
     try:
@@ -62,24 +62,15 @@ def write_to_table(table_name: str, data: pd.DataFrame, connect: connector):
     try:
         connect.cursor.executemany(sql_command_insert,data.values.tolist())
         connect.cursor.execute("COMMIT")
-    except mysql.connector.ProgrammingError as e:
+        return True
+    except mysql.connector.Error as e:
         print(f"Procedure failed because {e}")
-        pass
-
-def read_table(table_name:str, columns: list, connect: connector):
-    try:
-        Read_all_query= f"""SELECT * FROM {table_name}"""
-        connect.cursor.execute(Read_all_query)
-        sql_data = pd.DataFrame(connect.cursor.fetchall(), columns=columns)
-        return sql_data
-    except:
-        pass
+        return False
 
 
-class CRUD():
+class loader():
     def __init__(self, connector: connector):
         self.connector = connector
-        self.data = None
         self.table = None
         self.table_columns = None
     
@@ -91,28 +82,13 @@ class CRUD():
         else:
             self.table = None
 
-    def prep_data(self, data: pd.DataFrame):
-        self.data = transform_data.prep_data(data, self.table, self.connector)
-        pass
-
-    def write_to_table(self, data: pd.DataFrame, table_name: str):
+    def load_data(self, data: pd.DataFrame, table_name: str):
         self.choose_table(table_name)
         if self.table == None:
             print("Non valid table given exiting")
-            return None
         else:
-            self.prep_data(data)
-            write_to_table(self.table, self.data, self.connector)
+            write_to_table(self.table, data, self.connector)
             self.table=None
 
-    def read_table(self,table_name:str):
-        self.choose_table(table_name)
-        if self.table == None:
-            print("Table doesn't exists, exiting")
-            return None
-        else:
-            self.data = read_table(self.table,self.table_columns, self.connector)
-            return None
+
         
-if __name__=="__main__":
-    pass

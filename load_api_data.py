@@ -29,9 +29,4 @@ def to_csv(name: str, data: pd.DataFrame):
     data.to_csv(write_to, index=False)
 
 
-# Run for each of the given API's
-#datasets_from_api = ["orders","order_items","customers"]
-#for name in datasets_from_api:
- #   data = api_data(name)
-  #  to_csv(name, data)
 

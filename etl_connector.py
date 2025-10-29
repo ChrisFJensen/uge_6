@@ -146,25 +146,13 @@ class connector:
         self.update_table_list()
         print(self.table_list)
 
-if __name__ == "__main__":
-    test = connector("user","password")
-    test.connect()
-    test.show_dbs()
-    test.close()
-    test.is_open()
-    test.create_db("gfg")
-    test.choose_db("uge6_database")
-    test.show_dbs()
-    test.update_table_list()
-    test.show_tables()
-    test.current_db()
-    test.drop_db_current()
-    print(test.database)
-    print(test.cursor)
-    for db in test.cursor:
-        print(db[0])
-
-    if test.conn:
-        print(test.conn)
-    else:
-        print("closed")
+    #Initialise tables
+    def initialise_tables(self, sql_file:str):
+        with open(sql_file,"r") as file:
+            sqltext = file.read()
+        sqlcommands = sqltext.split(";")
+        for command in sqlcommands:
+            try:
+                self.cursor.execute(command)
+            except mysql.connector.OperationalError as e:
+                print(e)

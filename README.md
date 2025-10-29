@@ -34,7 +34,7 @@ Har ikke gjort noget ved dette datasæt, har customer_id som er en primary key
 ### Orders
 Har ændret staff_name og store_name til deres id'er og konverterer datoerne fra ddmmyyyy til yyyymmdd.
 Order_id er en primary key, store_id,staff_id og customer_id er foreign keys.
-
+Det skal bemærkes at under transformationen så bliver nogle af de datoer der mangler lavet om til NaT, hvilket SQL kan håndtere men ved ikke om det anses som værende det samme som null.
 ### Order_items
 har fjernet list price. Order_id & product id er foreign keys.
 
