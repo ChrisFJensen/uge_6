@@ -85,11 +85,11 @@ CREATE TABLE customers (
 
 CREATE TABLE orders (
     customer_id int DEFAULT NULL,
-    order_date date DEFAULT NULL,
+    order_date date NULL DEFAULT NULL,
     order_id int NOT NULL AUTO_INCREMENT,
     order_status tinyint DEFAULT 1,
-    required_date date DEFAULT NULL,
-    shipped_date date DEFAULT NULL,
+    required_date date NULL DEFAULT NULL,
+    shipped_date date NULL DEFAULT NULL,
     staff_id int DEFAULT NULL,
     store_id int DEFAULT NULL,
     PRIMARY KEY (order_id),

@@ -67,7 +67,6 @@ def write_to_table(table_name: str, data: pd.DataFrame, connect: connector):
         print(f"Procedure failed because {e}")
         return False
 
-
 class loader():
     def __init__(self, connector: connector):
         self.connector = connector

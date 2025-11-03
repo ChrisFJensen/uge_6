@@ -3,6 +3,7 @@ from read_sources import extractor
 from transform_data import transformer
 from loader import loader
 import os
+import pandas as pd
 
 
 # Order of load order of tables
@@ -40,3 +41,17 @@ load.load_data(test_data,"orders")
 
 for table_name in table_order:
     etl_process(table_name)
+
+
+
+order_df = extract.extract_api("orders")
+date_columns = ["order_date","required_date","shipped_date"]
+order_df[date_columns] = order_df[date_columns].apply(pd.to_datetime, dayfirst=True, errors="coerce")
+order_df["shipped_date"] = order_df["shipped_date"].astype("object")
+
+order_df.dtypes
+order_df = order_df.replace(pd.NA,None)
+
+
+Data_to_print = order_df.values.tolist()
+print(Data_to_print)

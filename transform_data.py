@@ -70,6 +70,7 @@ def prep_orders_data(orders_df: pd.DataFrame, staff_id_df: pd.DataFrame, store_i
     #Fix date_time format to SQL server
     date_columns = ["order_date","required_date","shipped_date"]
     new_orders_df[date_columns] = new_orders_df[date_columns].apply(pd.to_datetime, dayfirst=True, errors="coerce")
+    new_orders_df[date_columns] = new_orders_df[date_columns].astype(object)
     #Change order of store_id and staff_id
     New_new_orders_df = new_orders_df.drop(columns=["store_id"])
     New_new_orders_df["store_id"] = new_orders_df["store_id"]
